@@ -43,6 +43,11 @@ export const FeedbackProvider = ({ children }) => {
     setFeedback(
       feedback.map((item) => (item.id === id ? { ...item, ...data } : item))
     );
+
+    setFeedbackEdit({
+      item: {},
+      edit: false,
+    });
   };
 
   //Delete feedback
