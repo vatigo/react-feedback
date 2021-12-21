@@ -5,6 +5,8 @@ export const FeedbackProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [feedback, setFeedback] = useState([]);
 
+  const apiUrl = "https://feedback-ui-json-server.herokuapp.com";
+
   const [feedbackEdit, setFeedbackEdit] = useState({
     item: {},
     edit: false,
@@ -16,7 +18,7 @@ export const FeedbackProvider = ({ children }) => {
   }, []);
 
   const fetchFeedback = async () => {
-    const response = await fetch("/feedback?_sort=id&_order=desc");
+    const response = await fetch(`${apiUrl}/feedback?_sort=id&_order=desc`);
     const data = await response.json();
     setFeedback(data);
     setIsLoading(false);
@@ -32,7 +34,7 @@ export const FeedbackProvider = ({ children }) => {
 
   //Update feedback
   const updateFeedback = async (id, updItem) => {
-    const response = await fetch(`/feedback/${id}`, {
+    const response = await fetch(`${apiUrl}/feedback/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updItem),
@@ -53,7 +55,7 @@ export const FeedbackProvider = ({ children }) => {
   //Delete feedback
   const deleteFeedback = async (id) => {
     if (window.confirm("Are you sure you want to delete?")) {
-      await fetch(`/feedback/${id}`, { method: "DELETE" });
+      await fetch(`${apiUrl}/feedback/${id}`, { method: "DELETE" });
 
       setFeedback(feedback.filter((item) => item.id !== id));
     }
@@ -61,7 +63,7 @@ export const FeedbackProvider = ({ children }) => {
 
   //Add feedback
   const addFeedback = async (newFeedback) => {
-    const response = await fetch("/feedback", {
+    const response = await fetch(`${apiUrl}/feedback`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
